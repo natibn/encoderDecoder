@@ -10,15 +10,19 @@ package com.mycompany.teoriaga_natalia;
  */
 public class EliasGamma {
     public static String encode(String input) {
-        int num = Integer.parseInt(input);
-        String binary = Integer.toBinaryString(num);
-
-        StringBuilder prefix = new StringBuilder();
-        for (int i = 0; i < binary.length() - 1; i++) {
-            prefix.append("0");
+        try {
+            int num = Integer.parseInt(input);
+            String binary = Integer.toBinaryString(num);
+    
+            StringBuilder prefix = new StringBuilder();
+            for (int i = 0; i < binary.length() - 1; i++) {
+                prefix.append("0");
+            }
+    
+            return prefix.toString() + binary;
+        } catch (NumberFormatException e) {
+            return "Entrada inválida, insira um número por favor!";
         }
-
-        return prefix.toString() + binary;
     }
 
     public static String decode(String input) {

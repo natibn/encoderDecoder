@@ -54,6 +54,13 @@ public class Huffman {
             priorityQueue.add(new HuffmanNode(entry.getKey(), entry.getValue()));
         }
 
+        if (priorityQueue.size() == 1) {
+            HuffmanNode soleNode = priorityQueue.poll();
+            // Criar um nó pai fictício
+            HuffmanNode dummyNode = new HuffmanNode(soleNode.frequency, soleNode, null);
+            priorityQueue.add(dummyNode);
+        }
+
         // 3. Construir a árvore de Huffman
         while (priorityQueue.size() > 1) {
             HuffmanNode left = priorityQueue.poll();
