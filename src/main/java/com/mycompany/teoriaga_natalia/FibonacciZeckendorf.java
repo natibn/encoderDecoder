@@ -4,9 +4,13 @@
  */
 package com.mycompany.teoriaga_natalia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author natib
+ * @author diegobritto
  */
 public class FibonacciZeckendorf {
     public static String encode(String input) {
@@ -36,13 +40,28 @@ public class FibonacciZeckendorf {
     }
 
     public static String decode(String input) {
-        int a = 1, b = 2, result = 0;
-        for (char c : input.toCharArray()) {
-            if (c == '1') result += b;
-            int temp = a + b;
-            a = b;
-            b = temp;
+        if (!input.matches("[01]+")) {
+            throw new IllegalArgumentException("Entrada deve conter apenas '0' e '1'");
         }
+
+        int result = 0;
+        List<Integer> fib = new ArrayList<>();
+
+        // Gera a sequência de Fibonacci suficiente
+        fib.add(1); // F(1)
+        fib.add(2); // F(2)
+        while (fib.size() < input.length() + 2) {
+            int next = fib.get(fib.size() - 1) + fib.get(fib.size() - 2);
+            fib.add(next);
+        }
+
+        // Decodifica a entrada
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(input.length() - 1 - i) == '1') {
+                result += fib.get(i + 2); // Corrigido para F(i + 2)
+            }
+        }
+
         return String.valueOf(result);
     }
 }
