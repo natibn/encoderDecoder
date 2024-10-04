@@ -9,32 +9,45 @@ package com.mycompany.teoriaga_natalia;
  * @author natib
  */
 public class EliasGamma {
+
     public static String encode(String input) {
-        try {
-            int num = Integer.parseInt(input);
-            String binary = Integer.toBinaryString(num);
-            if (num <= 0) {
-                return "Entrada inválida, insira um número positivo!";
-            } else if (num == 1) {
-                return "1";
+        StringBuilder encodedString = new StringBuilder();
+
+        for (char c : input.toCharArray()) {
+            int ascii = (int) c;
+
+            String binary = Integer.toBinaryString(ascii);
+
+            if (ascii == 1) {
+                encodedString.append("1 ");
+                continue;
             }
+
             StringBuilder prefix = new StringBuilder();
             for (int i = 0; i < binary.length() - 1; i++) {
                 prefix.append("0");
             }
 
-            return prefix.toString() + binary;
-        } catch (NumberFormatException e) {
-            return "Entrada inválida, insira um número por favor!";
+            encodedString.append(prefix.toString()).append(binary).append(" ");
         }
+
+        return encodedString.toString().trim(); 
     }
 
     public static String decode(String input) {
-        int index = input.indexOf("1");
-        String binary = input.substring(index);
-        return String.valueOf(Integer.parseInt(binary, 2));
+        StringBuilder decodedString = new StringBuilder();
+        String[] encodedChars = input.split(" ");
+
+        for (String encodedChar : encodedChars) {
+            int index = encodedChar.indexOf("1");
+
+            String binary = encodedChar.substring(index);
+
+            int ascii = Integer.parseInt(binary, 2);
+
+            decodedString.append((char) ascii);
+        }
+
+        return decodedString.toString();
     }
 }
-
-
-

@@ -12,31 +12,46 @@ public class Golomb {
     private static int m = 5;
 
     public static String encode(String input) {
-        try {
-            int num = Integer.parseInt(input);
-            int q = num / m;
-            int r = num % m;
+        StringBuilder encodedString = new StringBuilder();
+        
+        for (char c : input.toCharArray()) {
+            int ascii = (int) c;
+
+            int q = ascii / m;
+            int r = ascii % m;
+
             StringBuilder quotient = new StringBuilder();
+
             for (int i = 0; i < q; i++) {
                 quotient.append("1");
             }
             quotient.append("0");
+
             int numBitsRemainder = (int) Math.ceil(Math.log(m) / Math.log(2));
             String remainder = String.format("%" + numBitsRemainder + "s", Integer.toBinaryString(r)).replace(' ', '0');
 
-            return quotient.toString() + remainder;
-        } catch (NumberFormatException e) {
-            return "Entrada inválida, insira um número por favor!";
+            encodedString.append(quotient.toString()).append(remainder).append(" ");
         }
+
+        return encodedString.toString().trim(); 
     }
 
     public static String decode(String input) {
-        int q = input.indexOf("0");
-        String remainder = input.substring(q + 1);
-        int r = Integer.parseInt(remainder, 2);
+        StringBuilder decodedString = new StringBuilder();
+        String[] encodedChars = input.split(" ");
 
-        return String.valueOf(q * m + r);
+        for (String encodedChar : encodedChars) {
+            int q = encodedChar.indexOf("0");
+            String remainder = encodedChar.substring(q + 1);
+
+            int r = Integer.parseInt(remainder, 2);
+
+            int ascii = q * m + r;
+
+            decodedString.append((char) ascii);
+        }
+
+        return decodedString.toString(); 
     }
 }
-
 
