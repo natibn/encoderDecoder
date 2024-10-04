@@ -13,12 +13,16 @@ public class EliasGamma {
         try {
             int num = Integer.parseInt(input);
             String binary = Integer.toBinaryString(num);
-    
+            if (num == 0) {
+                return "10";
+            } else if (num == 1) {
+                return "11";
+            }
             StringBuilder prefix = new StringBuilder();
             for (int i = 0; i < binary.length() - 1; i++) {
                 prefix.append("0");
             }
-    
+
             return prefix.toString() + binary;
         } catch (NumberFormatException e) {
             return "Entrada inválida, insira um número por favor!";
@@ -26,10 +30,17 @@ public class EliasGamma {
     }
 
     public static String decode(String input) {
+        if (input.equals("10")) {
+            return "0"; 
+        } else if (input.equals("11")) {
+            return "1"; 
+        }
+
         int index = input.indexOf("1");
         String binary = input.substring(index);
         return String.valueOf(Integer.parseInt(binary, 2));
     }
 }
+
 
 
