@@ -1,22 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.teoriaga_natalia;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author natib
- * @author diegobritto
- */
 public class FibonacciZeckendorf {
     public static String encode(String input) {
-        int num = Integer.parseInt(input);
         StringBuilder result = new StringBuilder();
+        
+        for (char ch : input.toCharArray()) {
+            int num = (int) ch; 
+            String encodedChar = encodeNumber(num);
+            result.append(encodedChar).append(" ");
+        }
 
+        return result.toString().trim(); 
+    }
+
+    private static String encodeNumber(int num) {
+        StringBuilder result = new StringBuilder();
         List<Integer> fibonacci = new ArrayList<>();
         fibonacci.add(1);
         fibonacci.add(2);
@@ -39,21 +40,28 @@ public class FibonacciZeckendorf {
             }
         }
 
-        if (result.length() == 0) {
-            return "0";
+        return result.length() == 0 ? "0" : result.toString();
+    }
+
+    public static String decode(String input) {
+        StringBuilder result = new StringBuilder();
+        String[] encodedChars = input.split(" ");
+
+        for (String encodedChar : encodedChars) {
+            int decodedChar = decodeNumber(encodedChar);
+            result.append((char) decodedChar); 
         }
 
         return result.toString();
     }
 
-    public static String decode(String input) {
+    private static int decodeNumber(String input) {
         if (!input.matches("[01]+")) {
             throw new IllegalArgumentException("A entrada deve conter apenas '0' e '1'");
         }
 
         int result = 0;
         List<Integer> fib = new ArrayList<>();
-
         fib.add(0);
         fib.add(1);
 
@@ -68,7 +76,6 @@ public class FibonacciZeckendorf {
             }
         }
 
-        return String.valueOf(result);
+        return result;
     }
 }
-
