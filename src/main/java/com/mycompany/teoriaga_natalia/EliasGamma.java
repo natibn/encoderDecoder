@@ -7,6 +7,7 @@ package com.mycompany.teoriaga_natalia;
 /**
  *
  * @author natib
+ * @author julianrsouza
  */
 public class EliasGamma {
 
@@ -28,7 +29,7 @@ public class EliasGamma {
                 prefix.append("0");
             }
 
-            encodedString.append(prefix.toString()).append(binary).append(" ");
+            encodedString.append(prefix.toString()).append(binary);
         }
 
         return encodedString.toString().trim(); 
@@ -36,14 +37,31 @@ public class EliasGamma {
 
     public static String decode(String input) {
         StringBuilder decodedString = new StringBuilder();
-        String[] encodedChars = input.split(" ");
+        
+        int i = 0;
 
-        for (String encodedChar : encodedChars) {
-            int index = encodedChar.indexOf("1");
+        while (i < input.length()) {
+            int zeroCount = 0;
 
-            String binary = encodedChar.substring(index);
+            while (i < input.length() && input.charAt(i) == '0') {
+                zeroCount++;
+                i++;
+            }
 
-            int ascii = Integer.parseInt(binary, 2);
+            if (i < input.length() && input.charAt(i) == '1') {
+                i++;
+            }
+
+            StringBuilder binary = new StringBuilder("1");
+            
+            for (int j = 0; j < zeroCount; j++) {
+                if (i < input.length()) {
+                    binary.append(input.charAt(i));
+                    i++;
+                }
+            }
+
+            int ascii = Integer.parseInt(binary.toString(), 2);
 
             decodedString.append((char) ascii);
         }
