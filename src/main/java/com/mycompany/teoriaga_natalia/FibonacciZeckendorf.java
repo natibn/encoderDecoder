@@ -6,14 +6,23 @@ import java.util.List;
 public class FibonacciZeckendorf {
     public static String encode(String input) {
         StringBuilder result = new StringBuilder();
-        
+
         for (char ch : input.toCharArray()) {
-            int num = (int) ch; 
+            int num = (int) ch;
             String encodedChar = encodeNumber(num);
-            result.append(encodedChar).append(" ");
+            String encodedString = encodedChar.toString().trim();
+            int length = encodedString.length();
+            StringBuilder formattedLength = new StringBuilder();
+            for (int i = 0; i < (10-length); i++) {
+                formattedLength.append("0");
+            }
+            if (length != 10){
+                encodedChar = formattedLength+encodedChar;
+            }
+            result.append(encodedChar);
         }
 
-        return result.toString().trim(); 
+        return result.toString().trim();
     }
 
     private static String encodeNumber(int num) {
@@ -45,11 +54,13 @@ public class FibonacciZeckendorf {
 
     public static String decode(String input) {
         StringBuilder result = new StringBuilder();
-        String[] encodedChars = input.split(" ");
 
-        for (String encodedChar : encodedChars) {
+        // Percorre a string em blocos de 10 caracteres
+        for (int i = 0; i < input.length(); i += 10) {
+            // Extrai a substring de tamanho 10 ou menor se for a última parte
+            String encodedChar = input.substring(i, Math.min(i + 10, input.length()));
             int decodedChar = decodeNumber(encodedChar);
-            result.append((char) decodedChar); 
+            result.append((char) decodedChar);
         }
 
         return result.toString();
